@@ -1,0 +1,25 @@
+{
+  "name": "timelycare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tests": "playwright test --workers 1",
+    "tests:ui": "playwright test --ui",
+    "tests:all": "playwright test --workers 1",
+    "tests:headed": "playwright test --workers 1 --headed",
+    "tests:debug": "playwright test --workers 1 --headed --debug",
+    "tests:lambda": "playwright test --config=playwright-lambda.config.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "playwright-elements": "^1.10.0"
+  }
+}
