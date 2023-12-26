@@ -1,6 +1,5 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { PwAbstractPage } from "./PwAbstractPage";
-import { $ } from "playwright-elements"
 export class CreateAccPage extends PwAbstractPage {
   readonly locators: Record<string, Locator>;
   readonly page: Page;
@@ -33,8 +32,15 @@ export class CreateAccPage extends PwAbstractPage {
     };
   }
   
-
-  async createNewAccount(firstName: string,lastName: string,birth: string,street: string,city: string,zip: string,phone: string,password: string){
+  async createNewAccount(
+    firstName: string,
+    lastName: string,
+    birth: string,
+    street: string,
+    city: string,
+    zip: string,
+    phone: string,
+    password: string){
     await this.fillBasicInformation(firstName,lastName,birth)
     await this.fillAccountDetail()
     await this.fillAddressAndContact(street,city,zip,phone)

@@ -24,6 +24,7 @@ export class HomePage extends PwAbstractPage{
   
       yesJoinVisitBtn: this.page.getByRole('button', { name: 'YES, JOIN VISIT' }),
       skipRateBtn : this.page.getByRole('button', { name: 'Skip' }),
+      joinVisitBtn: this.page.locator('(//button[contains(text(), "Join Visit")])[1]')
     }
   }
 
@@ -56,8 +57,13 @@ export class HomePage extends PwAbstractPage{
   }
 
   async acceptVisit(){
-    await this.locators.yesJoinVisitBtn.click()
-    await this.page.waitForLoadState()
+    if(await this.isMyElementVisible(this.locators.yesJoinVisitBtn)){
+      await this.locators.yesJoinVisitBtn.click()
+      await this.page.waitForLoadState()
+    }else{
+      await this.locators.joinVisitBtn.click()
+      await this.page.waitForLoadState()
+    }
   }
 
   async skipRates(){

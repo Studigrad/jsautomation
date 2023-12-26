@@ -2,7 +2,6 @@ import { chromium, test as base, Page } from "@playwright/test";
 import { HomePage } from '../page-objects/HomePage';
 import { LoginPage } from '../page-objects/LoginPage';
 import path from "path"
-import { BrowserContext } from "playwright";
 
 // LambdaTest capabilities
 const username = "ilya.s"
@@ -56,7 +55,8 @@ const getErrorMessage = (obj, keys) =>
                     `${testInfo.title} - ${fileName}`
                 );
             const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`)
-            const context = await browser.newContext({...testInfo.project.use,permissions: ['microphone','camera']})
+            const context = await browser.newContext(testInfo.project.use)
+            await context.grantPermissions(['microphone','camera']);
             await run(context);
             const testStatus = {
                 action: "setTestStatus",

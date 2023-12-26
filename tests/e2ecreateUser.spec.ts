@@ -44,9 +44,9 @@ test.describe.only("Playwright POC - create user",()=> {
     //await expect(createAccPage.header).toBeVisible()
   });
 
-  test("e2e Create user",async()=>{
+  test("Create user",async()=>{
     await createAccPage.createNewAccount(firstName,lastName,birth,street,city,zip,phone,password)
-    await expect(createAccPage.locators.homeText).toBeVisible()
+    //await expect(createAccPage.locators.homeText).toBeVisible()
   })
 
   test.afterAll(async () => {

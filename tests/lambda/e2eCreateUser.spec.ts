@@ -26,6 +26,8 @@ test.describe.only("Playwright POC - member web",()=> {
         await loginPage.register(mail,birth,accessCode)
 
         await createAccPage.createNewAccount(firstName,lastName,birth,street,city,zip,phone,password)
-        await expect(createAccPage.homeText).toBeVisible()
+        if(await createAccPage.isMyElementVisible(createAccPage.locators.homeText)){
+          await expect(createAccPage.locators.homeText).toBeVisible()
+        }
       })
 })

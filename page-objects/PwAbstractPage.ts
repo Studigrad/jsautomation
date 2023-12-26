@@ -11,7 +11,7 @@ export class PwAbstractPage {
     this.page.goto(url)
   }
 
-  async tap(element: Locator) {
+  async click(element: Locator) {
     const visible = await element.isVisible();
     if (visible) {
       await element.click();

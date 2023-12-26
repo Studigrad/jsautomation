@@ -1,16 +1,18 @@
 // @ts-check
-import { test, expect, chromium, BrowserContext } from '@playwright/test';
-import { HomePage } from '../page-objects/HomePage';
-import { LoginPage } from '../page-objects/LoginPage';
+import { expect, chromium, BrowserContext } from '@playwright/test';
+import { test } from '../../fixture/lambdaConfig';
+import { ProviderHomePage } from '../../page-objects/ProviderHomePage';
+import { HomePage } from '../../page-objects/HomePage';
+import { LoginPage } from '../../page-objects/LoginPage';
 import {type Page } from '@playwright/test';
 import dotenv from 'dotenv';;
 import 'dotenv/config'
-import { ProviderHomePage } from '../page-objects/ProviderHomePage';
+
 dotenv.config();
 
 const email = "timelyautomation+payfails@gmail.com"
 const pass = "*bstract1nheritEncapspoly"
-
+// LambdaTest capabilities
 
 test.describe("Playwright - Member creation and provider completion for scheduled therapy", () => {
   test.describe.configure({ mode: 'serial' });
@@ -24,22 +26,9 @@ test.describe("Playwright - Member creation and provider completion for schedule
   let homePageMember: HomePage;
   let providerPage: ProviderHomePage;
 
-  test.beforeAll(async () => {
-    const proxyServer = 'proxy.pbank.com.ua:8080';
-
-    // Launch a browser with the proxy configuration
-    const browser = await chromium.launch({
-      proxy: {
-        server: proxyServer,
-        username: 'DN260302SIV',
-        password: 'Il0988763518',
-      },
-    });
-
-    context = await browser.newContext({
-      permissions: ['microphone','camera']
-    });
-    
+  test.beforeAll(async ({browserContext}) => {
+    context = browserContext
+    await context.grantPermissions(['microphone','camera']);
     page1 = await context.newPage();
     page2 = await context.newPage();
 
@@ -65,6 +54,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
 
   test("Login as a provider ...", async () => {
     await loginPageProvider.loginAsProvider(process.env.PROVIDER_ACCOUNT_1 || email,process.env.PROVIDER_PASSWORD_1 || pass)
+    //await page1.bringToFront();
   });
 
   test("Start a therapy visit ...",async()=>{

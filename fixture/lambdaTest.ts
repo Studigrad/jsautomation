@@ -64,7 +64,8 @@ const getErrorMessage = (obj, keys) =>
                 );
 
             const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`)
-            const context = await browser.newContext({...testInfo.project.use,permissions: ['microphone','camera']})
+            const context = await browser.newContext(testInfo.project.use)
+            await context.grantPermissions(['microphone','camera']);
             const lmdPage = await context.newPage()
             await use(lmdPage)
             const testStatus = {
