@@ -18,7 +18,7 @@ const zip = "07400"
 const phone = "3809887635"
 const password = "*bstract1nheritEncapspoly"
 
-test.describe.only("Playwright POC - member web",()=> {
+test.describe("Playwright POC - member web",()=> {
     test("e2e Create User POC",async({loginPage,createAccPage})=>{
         let stamp = Math.floor(new Date().getTime()/1000.0)
         let mail = newEmail+stamp+"@gmail.com"

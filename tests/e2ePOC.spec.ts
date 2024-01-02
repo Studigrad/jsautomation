@@ -4,8 +4,8 @@ import { HomePage } from '../page-objects/HomePage';
 import { LoginPage } from '../page-objects/LoginPage';
 import {type Page } from '@playwright/test';
 
-const email = "timelyautomation+payfails@gmail.com"
-const pass = "*bstract1nheritEncapspoly"
+const email = "timely.bot.member.1@gmail.com"
+const pass = "Test12345@"
 
 test.describe("Playwright POC - member web",()=> {
   let page: Page;
@@ -21,7 +21,7 @@ test.describe("Playwright POC - member web",()=> {
   });
 
   test("e2e Get care POC",async()=>{
-    await homePage.e2egetCareFlow()
+    await homePage.e2egetCareFlowTalkNow()
     await homePage.deleteCard()
   })
 

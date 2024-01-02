@@ -6,10 +6,22 @@ import {type Page } from '@playwright/test';
 import dotenv from 'dotenv';;
 import 'dotenv/config'
 import { ProviderHomePage } from '../page-objects/ProviderHomePage';
+import { CreateAccPage } from '../page-objects/CreateAccPage';
 dotenv.config();
 
 const email = "timelyautomation+payfails@gmail.com"
 const pass = "*bstract1nheritEncapspoly"
+
+const newEmail = "timelyautomation+pw"
+const birth = "03-26-2002"
+const accessCode = "Z-Z-U-6-4-Y"
+const firstName = "Ilya"
+const lastName = "Studigrad"
+const street = "Nezalezhnosti"
+const city = "Brovary"
+const zip = "07400"
+const phone = "3809887635"
+const password = "*bstract1nheritEncapspoly"
 
 test.describe("Playwright - Member creation and provider completion for scheduled therapy", () => {
   test.describe.configure({ mode: 'serial' });
@@ -22,6 +34,8 @@ test.describe("Playwright - Member creation and provider completion for schedule
 
   let homePageMember: HomePage;
   let providerPage: ProviderHomePage;
+
+  let createAccPage: CreateAccPage;
 
   test.beforeAll(async ({browser}) => {
     // const proxyServer = 'proxy.pbank.com.ua:8080';
@@ -36,15 +50,17 @@ test.describe("Playwright - Member creation and provider completion for schedule
     // });
 
     context = await browser.newContext()
-    await context.grantPermissions(['microphone','camera']);
+    await context.grantPermissions(['microphone','camera','geolocation']);
     page1 = await context.newPage();
     page2 = await context.newPage();
 
-    loginPageMember = new LoginPage(page1)
+    loginPageMember = new LoginPage(page1);
+    createAccPage = new CreateAccPage(page1);
     homePageMember = new HomePage(page1)
 
     loginPageProvider = new LoginPage(page2)
     providerPage = new ProviderHomePage(page2)
+
   });
 
   test.afterAll(async () => {
@@ -56,13 +72,16 @@ test.describe("Playwright - Member creation and provider completion for schedule
   //   await providerPage.closeExistingVisit()
   // })
 
-  test("Login as a member ...",async()=>{
-    await loginPageMember.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
+  test("Register as a member ...",async()=>{
+    let stamp = Math.floor(new Date().getTime()/1000.0)
+    let mail = newEmail+stamp+"@gmail.com"
+    await loginPageMember.goto()
+    await loginPageMember.register(mail,birth,accessCode)
+    await createAccPage.createNewAccount(firstName,lastName,birth,street,city,zip,phone,password)
   })
 
   test("Create new therapy visit as member", async () => {
-    await homePageMember.e2egetCareFlowMedicalNow()
-    //await homePageMember.deleteCard()
+    await homePageMember.newUserGetCare()
   });
 
   test("Login as a provider ...", async () => {

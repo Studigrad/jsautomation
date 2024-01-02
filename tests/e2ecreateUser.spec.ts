@@ -11,27 +11,27 @@ const accessCode = "Z-Z-U-6-4-Y"
 const firstName = "Ilya"
 const lastName = "Studigrad"
 const street = "Nezalezhnosti"
-const city = "Brovary"
+const city = "Texas"
 const zip = "07400"
 const phone = "3809887635"
 const password = "*bstract1nheritEncapspoly"
 
-test.describe.only("Playwright POC - create user",()=> {
+test.describe("Playwright POC - create user",()=> {
   let page: Page;
   let loginPage : LoginPage;
   let createAccPage: CreateAccPage;
 
-  test.beforeAll("Visit create user page",async () => {
-    const proxyServer = 'proxy.pbank.com.ua:8080';
+  test.beforeAll("Visit create user page",async ({browser}) => {
+    // const proxyServer = 'proxy.pbank.com.ua:8080';
 
-    // Launch a browser with the proxy configuration
-    const browser = await chromium.launch({
-      proxy: {
-        server: proxyServer,
-        username: 'DN260302SIV',
-        password: 'Il0988763518',
-      },
-    });
+    // // Launch a browser with the proxy configuration
+    // const browser = await chromium.launch({
+    //   proxy: {
+    //     server: proxyServer,
+    //     username: 'DN260302SIV',
+    //     password: 'Il0988763518',
+    //   },
+    // });
     
     page = await browser.newPage();
     loginPage = new LoginPage(page);

@@ -11,6 +11,11 @@ export class PwAbstractPage {
     this.page.goto(url)
   }
 
+  // async clickElement(element: Locator){
+  //   await this.page.waitForSelector(element);
+  //   await this.page.click(element);
+  // }
+
   async click(element: Locator) {
     const visible = await element.isVisible();
     if (visible) {

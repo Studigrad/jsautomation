@@ -20,7 +20,7 @@ export class CreateAccPage extends PwAbstractPage {
       street1Field: this.page.getByTestId('form-address-street1--input'),
       cityField: this.page.getByTestId('form-address-city--input'),
       stateField: this.page.getByTestId('form-address-state--input'),
-      alabama: this.page.getByRole('option', { name: 'Alabama' }),
+      alabama: this.page.getByRole('option', { name: 'Texas' }),
       zipCodeField: this.page.getByTestId('form-address-zip--input'),
       phoneNumberField: this.page.getByTestId('member-phone--input'),
       agreeRadioBtn: this.page.getByLabel('I agree to theTerms of Use'),

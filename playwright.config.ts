@@ -20,7 +20,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'html',
   use: {
-    baseURL: 'https://staging.timelycare.com/',
+    // baseURL: 'https://staging.timelycare.com/',
     trace: 'on-first-retry',
     screenshot:"only-on-failure"
   },

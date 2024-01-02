@@ -15,7 +15,7 @@ export class ProviderHomePage extends PwAbstractPage {
       confirmClaimBtn: this.page.getByRole('button', { name: 'Confirm Patient claim' }),
       openVisitBtn: this.page.getByRole('button', { name: 'Open Visit' }),
       startVisitBtn: this.page.getByTestId('te'),
-      endVisitBtn: this.page.locator('(//span[@class="MuiBadge-root jss936"])[5]'),
+      endVisitBtn: this.page.locator('(//span[contains(@class, "MuiBadge-root")])[5]/div'),
       yesEndVisitBtn: this.page.getByRole('button', { name: 'Yes, end visit' }),
       finishVisitBtn: this.page.getByTestId('tc'),
       editVisitSummaryBtn: this.page.getByRole('button', { name: 'Edit visit summary' }),
@@ -29,6 +29,11 @@ export class ProviderHomePage extends PwAbstractPage {
       restrictionsChecksBtn: this.page.getByLabel('School'),
       patientReferalRadioBtn: this.page.locator('(//div[@class="flex gap-xs"]/label)[2]'),
       submitAndCompleteVisitBtn: this.page.getByRole('button', { name: 'Submit and complete visit' }),
+      activeVisitBtn: this.page.locator("//h4[contains(text(),'Active Visit')]/ancestor::div[3]//button"),
+      cancelVisitBtn: this.page.getByRole('button', { name: 'Cancel visit' }),
+      memberNotShowRadioBtn: this.page.getByLabel('Member no show'),
+      moreInformationTextBox: this.page.getByRole('textbox'),
+      yesCancelVisitBtn: this.page.getByRole('button', { name: 'Yes, cancel visit' })
     };
   }
 
@@ -73,6 +78,19 @@ export class ProviderHomePage extends PwAbstractPage {
     await this.locators.restrictionsChecksBtn.click();
     await this.locators.patientReferalRadioBtn.click();
     await this.locators.finishVisitBtn.click();
+  }
+
+  async closeExistingVisit(){
+    await this.locators.activeVisitBtn.click()
+    if(await this.isMyElementVisible(this.locators.cancelVisitBtn)){
+      await this.locators.cancelVisitBtn.click()
+    }else{
+      await this.locators.startVisitBtn.click()
+      await this.locators.cancelVisitBtn.click()
+    }
+    await this.locators.memberNotShowRadioBtn.click()
+    await this.locators.moreInformationTextBox.pressSequentially("test")
+    await this.locators.yesCancelVisitBtn.click()
   }
 
 }

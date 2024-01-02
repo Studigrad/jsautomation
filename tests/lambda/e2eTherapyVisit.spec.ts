@@ -16,7 +16,7 @@ const pass = "*bstract1nheritEncapspoly"
 
 test.describe("Playwright - Member creation and provider completion for scheduled therapy", () => {
   test.describe.configure({ mode: 'serial' });
-  let context: BrowserContext;
+  //let context: BrowserContext;
   let page1: Page;
   let page2: Page;
 
@@ -27,10 +27,9 @@ test.describe("Playwright - Member creation and provider completion for schedule
   let providerPage: ProviderHomePage;
 
   test.beforeAll(async ({browserContext}) => {
-    context = browserContext
-    await context.grantPermissions(['microphone','camera']);
-    page1 = await context.newPage();
-    page2 = await context.newPage();
+    await browserContext.grantPermissions(['microphone','camera']);
+    page1 = await browserContext.newPage();
+    page2 = await browserContext.newPage();
 
     loginPageMember = new LoginPage(page1)
     homePageMember = new HomePage(page1)
@@ -39,8 +38,8 @@ test.describe("Playwright - Member creation and provider completion for schedule
     providerPage = new ProviderHomePage(page2)
   });
 
-  test.afterAll(async () => {
-    await context.close();
+  test.afterAll(async ({browserContext}) => {
+    await browserContext.close();
   });
 
   test("Login as a member ...",async()=>{
@@ -48,8 +47,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
   })
 
   test("Create new therapy visit as member", async () => {
-    await homePageMember.e2egetCareFlow()
-    //await homePageMember.deleteCard()
+    await homePageMember.e2egetCareFlowMedicalNow()
   });
 
   test("Login as a provider ...", async () => {
