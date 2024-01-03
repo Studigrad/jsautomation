@@ -11,7 +11,7 @@ dotenv.config();
 const email = "timelyautomation+payfails@gmail.com"
 const pass = "*bstract1nheritEncapspoly"
 
-test.describe("Playwright - Member creation and provider completion for ondemand therapy", () => {
+test.describe("Playwright - Member creation and provider completion for Talk Now therapy", () => {
   test.describe.configure({ mode: 'serial' });
   let context: BrowserContext;
   let page1: Page;
@@ -49,7 +49,7 @@ test.describe("Playwright - Member creation and provider completion for ondemand
     await loginPageMember.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
   })
 
-  test("Create new therapy visit as member", async () => {
+  test("Create new Talk Now visit as member", async () => {
     await homePageMember.e2egetCareFlowTalkNow()
   });
 
@@ -57,15 +57,15 @@ test.describe("Playwright - Member creation and provider completion for ondemand
     await loginPageProvider.loginAsProvider(process.env.PROVIDER_ACCOUNT_1 || email,process.env.PROVIDER_PASSWORD_1 || pass)
   });
 
-  test("Start a therapy visit ...",async()=>{
+  test("Start a Talk Now therapy visit ...",async()=>{
     await providerPage.startTherapy()
   })
 
-  test("Accept visit as a member",async()=>{
+  test("Accept Talk Now visit as a member",async()=>{
     await homePageMember.acceptVisit()
   })
 
-  test("End therapy visit",async()=>{
+  test("End Talk Now therapy visit",async()=>{
     await providerPage.endTalklNowTherapy()
   })
 

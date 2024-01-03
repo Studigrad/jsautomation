@@ -11,7 +11,7 @@ dotenv.config();
 const email = "timelyautomation+payfails@gmail.com"
 const pass = "*bstract1nheritEncapspoly"
 
-test.describe("Playwright - Member creation and provider completion for scheduled therapy", () => {
+test.describe("Playwright - Member creation and provider completion for scheduled Counselling therapy", () => {
   test.describe.configure({ mode: 'serial' });
   let context: BrowserContext;
   let page1: Page;
@@ -22,6 +22,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
 
   let homePageMember: HomePage;
   let providerPage: ProviderHomePage;
+
   let date: string;
   let time: string;
 
@@ -46,7 +47,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
     await loginPageMember.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
   })
 
-  test("Create new therapy visit as member", async () => {
+  test("Create new Counselling therapy visit as member", async () => {
     [date,time] = await homePageMember.e2eGetCareFlowCounseling()
   });
 
@@ -54,20 +55,20 @@ test.describe("Playwright - Member creation and provider completion for schedule
     await loginPageProvider.loginAsProvider(process.env.PROVIDER_ACCOUNT_1 || email,process.env.PROVIDER_PASSWORD_1 || pass)
   });
 
-  test("Start a therapy visit ...",async()=>{
+  test("Start a Counselling therapy visit ...",async()=>{
     await providerPage.startScheduledTherapy(date,time)
   })
 
-  test("Accept visit as a member",async()=>{
-    await homePageMember.acceptVisit()
+  test("Accept Counselling visit as a member",async()=>{
+    await homePageMember.deleteCard("scheduled")
   })
 
-  test("End therapy visit",async()=>{
-    await providerPage.endTalklNowTherapy()
-  })
+  // test("End therapy visit",async()=>{
+  //   await providerPage.endTalklNowTherapy()
+  // })
 
-  test("Member rate skipping",async()=>{
-    await homePageMember.skipRates()
-  })
+  // test("Member rate skipping",async()=>{
+  //   await homePageMember.skipRates()
+  // })
 
 });

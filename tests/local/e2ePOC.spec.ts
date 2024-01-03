@@ -22,7 +22,7 @@ test.describe("Playwright POC - member web",()=> {
 
   test("e2e Get care POC",async()=>{
     await homePage.e2egetCareFlowTalkNow()
-    await homePage.deleteCard()
+    await homePage.deleteCard("demand")
   })
 
   test.afterAll(async () => {

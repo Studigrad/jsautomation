@@ -24,6 +24,7 @@ export class HomePage extends PwAbstractPage{
       provideCareBtn: this.page.getByTestId('t4'),
       nextBtn: this.page.getByTestId('new-visit-next--button'),
       locationBtn: this.page.getByLabel('I am in the United States'),
+      
       typeOfVisitBtn: {
         medicalNow: this.page.locator("//input[@value='medical_now']"),
         talkNow: this.page.locator("//input[@value='therapy_now']"),
@@ -32,6 +33,7 @@ export class HomePage extends PwAbstractPage{
         medical: this.page.locator("//input[@value='medical']"),
         psychiatry: this.page.locator("//input[@value='psychiatry']")
       } as TypeOfVisitLocators,
+
       toBeSeenForBtn: this.page.locator('(//fieldset/ul/li/input)[1]'),
       selectPharmacyBtn: this.page.locator('(//input[@class="peer flex-none radio"])[1]'),
       paymentRequiredCloseBtn: this.page.locator('//button[@class="btn btn-neutral"]'),
@@ -150,8 +152,12 @@ export class HomePage extends PwAbstractPage{
     await this.locators.nextBtn.click();
   }
 
-  async deleteCard(){
-    await this.locators.visitCardOnDemandBtn.click()
+  async deleteCard(type){
+    if(type=="scheduled"){
+      await this.locators.visitCardScheduledBtn.click()
+    }else{
+      await this.locators.visitCardOnDemandBtn.click()
+    }
     await this.locators.cancelVisitBtn.click()
     await this.locators.noLongerNeededBtn.click()
     await this.locators.yesCancelVisitBtn.click()
