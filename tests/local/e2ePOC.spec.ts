@@ -1,7 +1,7 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
-import { HomePage } from '../page-objects/HomePage';
-import { LoginPage } from '../page-objects/LoginPage';
+import { HomePage } from '../../page-objects/HomePage';
+import { LoginPage } from '../../page-objects/LoginPage';
 import {type Page } from '@playwright/test';
 
 const email = "timely.bot.member.1@gmail.com"

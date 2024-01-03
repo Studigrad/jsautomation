@@ -1,8 +1,8 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 import {type Page } from '@playwright/test';
-import { CreateAccPage } from '../page-objects/CreateAccPage';
-import { LoginPage } from '../page-objects/LoginPage';
+import { CreateAccPage } from '../../page-objects/CreateAccPage';
+import { LoginPage } from '../../page-objects/LoginPage';
 const { chromium } = require('playwright');
 
 const newEmail = "timelyautomation+pw"
@@ -22,17 +22,6 @@ test.describe("Playwright POC - create user",()=> {
   let createAccPage: CreateAccPage;
 
   test.beforeAll("Visit create user page",async ({browser}) => {
-    // const proxyServer = 'proxy.pbank.com.ua:8080';
-
-    // // Launch a browser with the proxy configuration
-    // const browser = await chromium.launch({
-    //   proxy: {
-    //     server: proxyServer,
-    //     username: 'DN260302SIV',
-    //     password: 'Il0988763518',
-    //   },
-    // });
-    
     page = await browser.newPage();
     loginPage = new LoginPage(page);
     createAccPage = new CreateAccPage(page);
@@ -41,12 +30,10 @@ test.describe("Playwright POC - create user",()=> {
     let mail = newEmail+stamp+"@gmail.com"
     await loginPage.goto()
     await loginPage.register(mail,birth,accessCode)
-    //await expect(createAccPage.header).toBeVisible()
   });
 
   test("Create user",async()=>{
     await createAccPage.createNewAccount(firstName,lastName,birth,street,city,zip,phone,password)
-    //await expect(createAccPage.locators.homeText).toBeVisible()
   })
 
   test.afterAll(async () => {

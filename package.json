@@ -9,7 +9,8 @@
     "tests:all": "playwright test --workers 1",
     "tests:headed": "playwright test --workers 1 --headed",
     "tests:debug": "playwright test --workers 1 --headed --debug",
-    "tests:lambda": "playwright test --config=playwright-lambda.config.ts"
+    "tests:lambda": "playwright test --config=playwright-lambda.config.ts",
+    "tests:local": "playwright test --config=playwright.config.ts --headed"
   },
   "keywords": [],
   "author": "",

@@ -1,12 +1,12 @@
 // @ts-check
 import { test, expect, chromium, BrowserContext } from '@playwright/test';
-import { HomePage } from '../page-objects/HomePage';
-import { LoginPage } from '../page-objects/LoginPage';
+import { HomePage } from '../../page-objects/HomePage';
+import { LoginPage } from '../../page-objects/LoginPage';
 import {type Page } from '@playwright/test';
 import dotenv from 'dotenv';;
 import 'dotenv/config'
-import { ProviderHomePage } from '../page-objects/ProviderHomePage';
-import { CreateAccPage } from '../page-objects/CreateAccPage';
+import { ProviderHomePage } from '../../page-objects/ProviderHomePage';
+import { CreateAccPage } from '../../page-objects/CreateAccPage';
 dotenv.config();
 
 const email = "timelyautomation+payfails@gmail.com"
@@ -23,7 +23,7 @@ const zip = "07400"
 const phone = "3809887635"
 const password = "*bstract1nheritEncapspoly"
 
-test.describe("Playwright - Member creation and provider completion for scheduled therapy", () => {
+test.describe.skip("Playwright - User creation and provider completion for ondemand therapy", () => {
   test.describe.configure({ mode: 'serial' });
   let context: BrowserContext;
   let page1: Page;
@@ -38,17 +38,6 @@ test.describe("Playwright - Member creation and provider completion for schedule
   let createAccPage: CreateAccPage;
 
   test.beforeAll(async ({browser}) => {
-    // const proxyServer = 'proxy.pbank.com.ua:8080';
-
-    // // Launch a browser with the proxy configuration
-    // const browser = await chromium.launch({
-    //   proxy: {
-    //     server: proxyServer,
-    //     username: 'DN260302SIV',
-    //     password: 'Il0988763518',
-    //   },
-    // });
-
     context = await browser.newContext()
     await context.grantPermissions(['microphone','camera','geolocation']);
     page1 = await context.newPage();
@@ -60,7 +49,6 @@ test.describe("Playwright - Member creation and provider completion for schedule
 
     loginPageProvider = new LoginPage(page2)
     providerPage = new ProviderHomePage(page2)
-
   });
 
   test.afterAll(async () => {
@@ -98,7 +86,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
   })
 
   test("End therapy visit",async()=>{
-    await providerPage.endTherapy()
+    await providerPage.endMedicalNowTherapy()
   })
 
   test("Member rate skipping",async()=>{

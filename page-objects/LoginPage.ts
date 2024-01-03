@@ -1,4 +1,4 @@
-
+// @ts-check
 import { expect, type Locator, type Page } from "@playwright/test";
 import { PwAbstractPage } from "./PwAbstractPage";
 

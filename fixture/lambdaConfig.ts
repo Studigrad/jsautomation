@@ -1,3 +1,4 @@
+// @ts-check
 import { chromium, test as base, Page } from "@playwright/test";
 import { HomePage } from '../page-objects/HomePage';
 import { LoginPage } from '../page-objects/LoginPage';

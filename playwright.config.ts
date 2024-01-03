@@ -12,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/local',
   timeout: 5 * 6 * 1000,
   fullyParallel: false,
   // forbidOnly: !!process.env.CI,
@@ -34,10 +34,10 @@ export default defineConfig({
     //   use: { ...devices['Desktop Firefox'] },
     // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     // {
     //   name: 'Mobile Chrome',

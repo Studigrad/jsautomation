@@ -1,13 +1,11 @@
 // @ts-check
-import { expect, chromium, BrowserContext } from '@playwright/test';
-import { test } from '../../fixture/lambdaConfig';
-import { ProviderHomePage } from '../../page-objects/ProviderHomePage';
+import { test, expect, chromium, BrowserContext } from '@playwright/test';
 import { HomePage } from '../../page-objects/HomePage';
 import { LoginPage } from '../../page-objects/LoginPage';
 import {type Page } from '@playwright/test';
 import dotenv from 'dotenv';;
 import 'dotenv/config'
-
+import { ProviderHomePage } from '../../page-objects/ProviderHomePage';
 dotenv.config();
 
 const email = "timelyautomation+payfails@gmail.com"
@@ -15,7 +13,7 @@ const pass = "*bstract1nheritEncapspoly"
 
 test.describe("Playwright - Member creation and provider completion for scheduled therapy", () => {
   test.describe.configure({ mode: 'serial' });
-  //let context: BrowserContext;
+  let context: BrowserContext;
   let page1: Page;
   let page2: Page;
 
@@ -24,11 +22,14 @@ test.describe("Playwright - Member creation and provider completion for schedule
 
   let homePageMember: HomePage;
   let providerPage: ProviderHomePage;
+  let date: string;
+  let time: string;
 
-  test.beforeAll(async ({browserContext}) => {
-    await browserContext.grantPermissions(['microphone','camera']);
-    page1 = await browserContext.newPage();
-    page2 = await browserContext.newPage();
+  test.beforeAll(async ({browser}) => {
+    context = await browser.newContext()
+    await context.grantPermissions(['microphone','camera']);
+    page1 = await context.newPage();
+    page2 = await context.newPage();
 
     loginPageMember = new LoginPage(page1)
     homePageMember = new HomePage(page1)
@@ -37,8 +38,8 @@ test.describe("Playwright - Member creation and provider completion for schedule
     providerPage = new ProviderHomePage(page2)
   });
 
-  test.afterAll(async ({browserContext}) => {
-    await browserContext.close();
+  test.afterAll(async () => {
+    await context.close();
   });
 
   test("Login as a member ...",async()=>{
@@ -46,7 +47,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
   })
 
   test("Create new therapy visit as member", async () => {
-    await homePageMember.e2egetCareFlowMedicalNow()
+    [date,time] = await homePageMember.e2eGetCareFlowCounseling()
   });
 
   test("Login as a provider ...", async () => {
@@ -54,7 +55,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
   });
 
   test("Start a therapy visit ...",async()=>{
-    await providerPage.startTherapy()
+    await providerPage.startScheduledTherapy(date,time)
   })
 
   test("Accept visit as a member",async()=>{
@@ -62,7 +63,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
   })
 
   test("End therapy visit",async()=>{
-    await providerPage.endMedicalNowTherapy()
+    await providerPage.endTalklNowTherapy()
   })
 
   test("Member rate skipping",async()=>{

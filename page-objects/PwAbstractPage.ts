@@ -1,3 +1,4 @@
+// @ts-check
 import { Locator, Page, expect } from "@playwright/test";
 
 export class PwAbstractPage {
@@ -11,10 +12,10 @@ export class PwAbstractPage {
     this.page.goto(url)
   }
 
-  // async clickElement(element: Locator){
-  //   await this.page.waitForSelector(element);
-  //   await this.page.click(element);
-  // }
+  async waitAndClickElement(element: Locator,time: number){
+    await this.wait(time)
+    await element.click()
+  }
 
   async click(element: Locator) {
     const visible = await element.isVisible();
