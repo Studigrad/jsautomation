@@ -11,7 +11,7 @@ dotenv.config();
 const email = "timelyautomation+payfails@gmail.com"
 const pass = "*bstract1nheritEncapspoly"
 
-test.describe("Playwright - Member creation and provider completion for scheduled Counseling therapy", () => {
+test.describe("Playwright - Member creation and provider completion for scheduled Health Coaching therapy", () => {
   test.describe.configure({ mode: 'serial' });
   let context: BrowserContext;
   let page1: Page;
@@ -47,19 +47,19 @@ test.describe("Playwright - Member creation and provider completion for schedule
     await loginPageMember.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
   })
 
-  test("Create new Counselling therapy visit as member", async () => {
-    [date,time] = await homePageMember.e2eGetCareFlowCounselingOrCoaching("counseling")
+  test("Create new Health Coaching therapy visit as member", async () => {
+    [date,time] = await homePageMember.e2eGetCareFlowCounselingOrCoaching("healthCoaching")
   });
 
   test("Login as a provider ...", async () => {
     await loginPageProvider.loginAsProvider(process.env.PROVIDER_ACCOUNT_1 || email,process.env.PROVIDER_PASSWORD_1 || pass)
   });
 
-  test("Start a Counselling therapy visit ...",async()=>{
+  test("Start a Health Coaching therapy visit ...",async()=>{
     await providerPage.startScheduledTherapy(date,time)
   })
 
-  test("Accept Counselling visit as a member",async()=>{
+  test("Accept Health Coaching visit as a member",async()=>{
     await homePageMember.deleteCard("scheduled")
   })
 

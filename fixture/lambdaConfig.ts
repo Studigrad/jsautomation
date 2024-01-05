@@ -9,21 +9,25 @@ const username = "ilya.s"
 const accessKey = "P0jpl705uQDWihcRe4hGq92MT2ddwRZl2izn33XYB5nGISG2A8"
 
 const capabilities = {
-  browserName: "Chrome", // default values, Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
-  browserVersion: "latest",
-  "LT:Options": {
-      platform: "Windows 10",
-      build: "Playwright Test Build",
-      name: "Playwright Test",
-      user: username,
-      accessKey: accessKey,
-      network: true,
-      video: true,
-      console: true,
-      tunnel: false, // Add tunnel configuration if testing locally hosted webpage
-      tunnelName: "", // Optional
-      geoLocation: '', // country code can be fetched from https://www.lambdatest.com/capabilities-generator/
-  },
+    "browserName": "Chrome",
+    "browserVersion": "latest",
+    "LT:Options": {
+        "platform": "Windows 10",
+        "build": "Playwright Test",
+        "name": "Playwright Lambda Test",
+        "user":username,
+        "accessKey":accessKey,
+        "network": true,
+        "console": true,
+        'goog:chromeOptions': [
+            '--use-fake-device-for-media-stream',
+            '--use-fake-ui-for-media-stream',
+        ],
+        'ms:edgeOptions': [
+            '--use-fake-device-for-media-stream',
+            '--use-fake-ui-for-media-stream',
+        ],
+    },
 };
 
 // Patching the capabilities dynamically according to the project name.
@@ -49,22 +53,9 @@ const getErrorMessage = (obj, keys) =>
     );
 
       export const test = base.extend({
-        browserContext: async ({}, run, testInfo) => {
-            let fileName = testInfo.file.split(path.sep).pop();
-                modifyCapabilities(
-                    testInfo.project.name,
-                    `${testInfo.title} - ${fileName}`
-                );
+        browserContext: async ({}, use, testInfo) => {
             const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`)
             const context = await browser.newContext(testInfo.project.use)
-            await context.grantPermissions(['microphone','camera']);
-            await run(context);
-            const testStatus = {
-                action: "setTestStatus",
-                arguments: {
-                    status: testInfo.status,
-                    remark: getErrorMessage(testInfo, ["error", "message"]),
-                },
-            };
+            await use(context);
         }
       });

@@ -13,7 +13,7 @@ export default defineConfig({
   fullyParallel: true,
   // forbidOnly: !!process.env.CI,
   retries: 0,
-  workers: 4,
+  workers: 1,
   reporter: 'html',
   use: {
     // baseURL: 'https://staging.timelycare.com/',
@@ -25,12 +25,18 @@ export default defineConfig({
     //     name: 'chromium',
     //     use: { ...devices['Desktop Chrome'] },
     //   },
-    {
-        name: "chrome:latest:MacOS Catalina@lambdatest",
-        use: {
-            viewport: { width: 1920, height: 1080 },
-        },
-    },
+    // {
+    //     name: "chrome:latest:MacOS Catalina@lambdatest",
+    //     use: {
+    //         viewport: { width: 1920, height: 1080 },
+    //         launchOptions: {
+    //           args: ['--disable-web-security',
+    //               '--use-fake-ui-for-media-stream',
+    //               '--use-fake-device-for-media-stream'
+    //           ],
+    //         }
+    //     },
+    // },
     {
         name: "chrome:latest:Windows 10@lambdatest",
         use: {

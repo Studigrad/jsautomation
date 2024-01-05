@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "dotenv": "^16.3.1",
+    "npm": "^10.2.5",
     "playwright-elements": "^1.10.0"
   }
 }

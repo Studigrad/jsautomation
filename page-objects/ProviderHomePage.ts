@@ -31,7 +31,7 @@ export class ProviderHomePage extends PwAbstractPage {
       editDischargeBtn: this.page.getByRole('button', { name: 'Edit discharge' }),
       carePlanTextArea: this.page.getByPlaceholder('The Care Plan goes to the'),
       restrictionsChecksBtn: this.page.getByLabel('School'),
-      patientReferalRadioBtn: this.page.locator('(//div[@class="flex gap-xs"]/label)[2]'),
+      patientReferalRadioBtn: this.page.locator('//input[@value="false"]'),
       submitAndCompleteVisitBtn: this.page.getByRole('button', { name: 'Submit and complete visit' }),
       activeVisitBtn: this.page.locator("//h4[contains(text(),'Active Visit')]/ancestor::div[3]//button"),
       cancelVisitBtn: this.page.getByRole('button', { name: 'Cancel visit' }),

@@ -76,13 +76,9 @@ export class HomePage extends PwAbstractPage{
     await this.getCateFirstSteps();
     await this.locators.typeOfVisitBtn['medicalNow'].click()
     await this.locators.nextBtn.click()
-    await this.page.waitForLoadState("load")
     await this.createHealthProfile()
     await this.page.waitForLoadState("load")
-    await this.locators.toBeSeenForBtn.click()
-    await this.locators.nextBtn.click()
-    await this.locators.nextBtn.click()
-    await this.page.waitForLoadState("load")
+    await this.getCareSecondSteps()
     await this.addPharmacy()
     await this.page.waitForLoadState("load")
     await this.locators.selectPharmacyBtn.click()
@@ -94,23 +90,26 @@ export class HomePage extends PwAbstractPage{
   async e2egetCareFlowMedicalNow(){
     await this.getCateFirstSteps();
     await this.locators.typeOfVisitBtn['medicalNow'].click()
-    await this.locators.nextBtn.click()
-    await this.locators.toBeSeenForBtn.click()
-    await this.locators.nextBtn.click()
-    await this.locators.nextBtn.click()
+    await this.getCareSecondSteps();
     await this.locators.selectPharmacyBtn.click()
     await this.locators.nextBtn.click()
     await this.locators.nextBtn.click()
     await expect(this.locators.visitCardOnDemandBtn).toBeVisible()
   }
 
+  async getCareSecondSteps() {
+    if(await this.isMyElementVisible(this.locators.nextBtn)){
+      await this.locators.nextBtn.click();
+    }
+    await this.locators.toBeSeenForBtn.click();
+    await this.locators.nextBtn.click();
+    await this.locators.nextBtn.click();
+  }
+
   async e2egetCareFlowTalkNow(){
     await this.getCateFirstSteps();
     await this.locators.typeOfVisitBtn['talkNow'].click()
-    await this.locators.nextBtn.click()
-    await this.locators.toBeSeenForBtn.click()
-    await this.locators.nextBtn.click()
-    await this.locators.nextBtn.click()
+    await this.getCareSecondSteps();
     await this.locators.paymentRequiredCloseBtn.click()
     await this.locators.selectCardBtn.click()
     await this.locators.nextBtn.click()
@@ -119,13 +118,10 @@ export class HomePage extends PwAbstractPage{
     await expect(this.locators.visitCardOnDemandBtn).toBeVisible()
   }
 
-  async e2eGetCareFlowCounseling(){
+  async e2eGetCareFlowCounselingOrCoaching(type: string){
     await this.getCateFirstSteps();
-    await this.locators.typeOfVisitBtn['counseling'].click()
-    await this.locators.nextBtn.click()
-    await this.locators.toBeSeenForBtn.click()
-    await this.locators.nextBtn.click()
-    await this.locators.nextBtn.click()
+    await this.locators.typeOfVisitBtn[type].click()
+    await this.getCareSecondSteps();
     await this.locators.availableProviderBtn.click()
     await this.locators.nextBtn.click()
 
@@ -141,6 +137,11 @@ export class HomePage extends PwAbstractPage{
 
     await expect(this.locators.visitCardScheduledBtn).toBeVisible()
     return [date,parseDate(timeV)]
+  }
+  
+  async e2eGetCareFlowMedical(){
+    await this.getCateFirstSteps()
+    await this.locators.typeOfVisitBtn['medical'].click()
   }
 
    async getCateFirstSteps() {
@@ -215,7 +216,5 @@ export class HomePage extends PwAbstractPage{
     await this.locators.searchPharmacyBtn.click()
     await this.locators.addFirstPharmacyBtn.click()
   }
-
-
 
 }
