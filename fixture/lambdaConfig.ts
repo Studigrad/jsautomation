@@ -19,6 +19,7 @@ const capabilities = {
         "accessKey":accessKey,
         "network": true,
         "console": true,
+        "idleTimeout": 50,
         'goog:chromeOptions': [
             '--use-fake-device-for-media-stream',
             '--use-fake-ui-for-media-stream',
@@ -26,7 +27,7 @@ const capabilities = {
         'ms:edgeOptions': [
             '--use-fake-device-for-media-stream',
             '--use-fake-ui-for-media-stream',
-        ],
+        ]
     },
 };
 
@@ -46,16 +47,36 @@ const modifyCapabilities = (configName, testName) => {
     capabilities["LT:Options"]["name"] = testName;
 };
 
-const getErrorMessage = (obj, keys) =>
-    keys.reduce(
-        (obj, key) => (typeof obj == "object" ? obj[key] : undefined),
-        obj
-    );
-
       export const test = base.extend({
+        //<{ testHook: void,browserContext: any }>
+        // testHook: [
+        //     async ({page}, use) => {
+        //       console.log("BEFORE EACH HOOK FROM FIXTURE");
+        //       // Any code here will be run as a before each hook
+        
+        //       await use();
+        
+        //       console.log("AFTER EACH HOOK FROM FIXTURE");
+        //       // Put any code you want run automatically after each test here
+        //     },
+        //     { auto: true },
+        //   ],
         browserContext: async ({}, use, testInfo) => {
+            let fileName = testInfo.file.split(path.sep).pop();
+            if (testInfo.project.name.match(/lambdatest/)) {
+                modifyCapabilities(
+                    testInfo.project.name,
+                    `${testInfo.title} - ${fileName}`
+                );
             const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`)
             const context = await browser.newContext(testInfo.project.use)
+            await context.grantPermissions(['camera','microphone']);
             await use(context);
+                }else{
+                    const browser = await chromium.launch();
+                    const context = await browser.newContext();
+                    await context.grantPermissions(['camera','microphone']);
+                    await use(context);
+                }
         }
-      });
+    });

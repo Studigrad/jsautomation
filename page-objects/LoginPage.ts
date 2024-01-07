@@ -40,27 +40,27 @@ export class LoginPage extends PwAbstractPage {
     await this.locators.continueBtn.click();
     await this.locators.codeField.pressSequentially(code)
     await this.locators.lastContinueRegBtn.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async loginAsMember(username: string, pass: string) {
     await this.page.goto(this.urlM);
     await this.locators.emailField.pressSequentially(username);
     await this.locators.continueBtn.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
     await this.locators.passField.pressSequentially(pass);
     await this.locators.continueBtnLast.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async loginAsProvider(username: string, pass: string) {
     await this.page.goto(this.urlP);
     await this.locators.emailField.pressSequentially(username);
     await this.locators.continueBtn.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
     await this.locators.passField.pressSequentially(pass);
     await this.locators.continueBtnLast.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
 

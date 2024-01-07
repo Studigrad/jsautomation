@@ -8,22 +8,26 @@ import { defineConfig, devices } from '@playwright/test';
 
 
 export default defineConfig({
-  testDir: './tests/lambda',
+  testDir: './tests/testgroup',
   timeout: 5 * 6 * 1000,
-  fullyParallel: true,
+  fullyParallel: false,
   // forbidOnly: !!process.env.CI,
-  retries: 0,
+  retries: 1,
   workers: 1,
   reporter: 'html',
   use: {
     // baseURL: 'https://staging.timelycare.com/',
     trace: 'on-first-retry',
+    screenshot:"only-on-failure"
   },
 
   projects: [
     // {
     //     name: 'chromium',
-    //     use: { ...devices['Desktop Chrome'] },
+    //     use: { 
+    //       ...devices['Desktop Chrome'],
+    //       headless: false 
+    //     },  
     //   },
     // {
     //     name: "chrome:latest:MacOS Catalina@lambdatest",

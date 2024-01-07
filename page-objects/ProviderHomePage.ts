@@ -16,12 +16,13 @@ export class ProviderHomePage extends PwAbstractPage {
       queueTab: this.page.getByRole('button', { name: 'Queue' }),
       scheduleTab: this.page.getByRole('button', { name: 'Schedule' }),
       claimPatientBtn: this.page.getByRole('button', { name: 'Claim Patient' }),
-      confirmClaimBtn: this.page.getByRole('button', { name: 'Confirm Patient claim' }),
+      confirmClaimBtn: this.page.getByRole('button', { name: 'Confirm claim' }),
       openVisitBtn: this.page.getByRole('button', { name: 'Open Visit' }),
       startVisitBtn: this.page.getByTestId('te'),
       endVisitBtn: this.page.locator('(//span[contains(@class, "MuiBadge-root")])[5]/div'),
       yesEndVisitBtn: this.page.getByRole('button', { name: 'Yes, end visit' }),
       finishVisitBtn: this.page.getByTestId('tc'),
+      continueVisitBtn: this.page.getByTestId('td'),
       editVisitSummaryBtn: this.page.getByRole('button', { name: 'Edit visit summary' }),
       icdSearch: this.page.getByLabel('ICD Search'),
       icdFindBtn: this.page.getByLabel('Open', { exact: true }),
@@ -42,7 +43,8 @@ export class ProviderHomePage extends PwAbstractPage {
       editNotesBtn: this.page.getByRole('button', { name: 'Edit Notes' }),
       visitNotesInputField: this.page.getByPlaceholder('Visit notes are visible to'),
       selectScheduledVistiBtn: this.page.locator("(//table/tr)[1]"),
-      goToVisitBtn: this.page.getByRole('button', { name: 'Go to visit' })
+      goToVisitBtn: this.page.getByRole('button', { name: 'Go to visit' }),
+      allVisitBtns: this.page.locator("//button/span[contains(text(),'Open')]")
     };
   }
 
@@ -52,53 +54,53 @@ export class ProviderHomePage extends PwAbstractPage {
     await this.locators.confirmClaimBtn.click();
     await this.locators.openVisitBtn.click();
     await this.locators.startVisitBtn.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async startScheduledTherapy(date: any,time: any){
     await this.locators.scheduleTab.click()
     await this.page.getByText(`${date}${time}`).click()
-    // if(await this.isMyElementVisible(this.locators.selectScheduledVistiBtn)){
-    //   await this.locators.selectScheduledVistiBtn.click()
-    // }
+    if(await this.isMyElementVisible(this.locators.selectScheduledVistiBtn)){
+      await this.locators.selectScheduledVistiBtn.click()
+    }
     await this.locators.goToVisitBtn.click()
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async endMedicalNowTherapy() {
     await this.finishTherapy();
 
     await this.fillDiagnosisForm();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
 
     await this.fillDischargeForm();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
 
     await this.locators.submitAndCompleteVisitBtn.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async endTalklNowTherapy() {
     await this.finishTherapy();
 
     await this.fillIntakeForm()
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
 
     await this.fillNotesForm()
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
 
     await this.fillDischargeForm();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
 
     await this.locators.submitAndCompleteVisitBtn.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   private async finishTherapy() {
     await this.locators.endVisitBtn.click();
     await this.locators.yesEndVisitBtn.click();
     await this.locators.finishVisitBtn.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async fillNotesForm(){
@@ -109,7 +111,7 @@ export class ProviderHomePage extends PwAbstractPage {
 
   async fillIntakeForm(){
     await this.locators.editIntakeBtn.click()
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
     await this.intakeForm.fillForm()
     await this.locators.finishVisitBtn.click()
   }
@@ -132,7 +134,6 @@ export class ProviderHomePage extends PwAbstractPage {
     await this.locators.finishVisitBtn.click();
   }
 
-
   async closeExistingVisit(){
     await this.locators.activeVisitBtn.click()
     if(await this.isMyElementVisible(this.locators.cancelVisitBtn)){
@@ -144,6 +145,24 @@ export class ProviderHomePage extends PwAbstractPage {
     await this.locators.memberNotShowRadioBtn.click()
     await this.locators.moreInformationTextBox.pressSequentially("test")
     await this.locators.yesCancelVisitBtn.click()
+  }
+
+  async closeLastVisits(){
+    try{
+      await this.page.waitForSelector(`//button/span[contains(text(),'Open')]`,{ timeout: 6000 })
+      let btns = await this.locators.allVisitBtns.all()
+      if(btns.length>0){
+        await Promise.all([,
+          await this.waitAndClickElement(btns[0],1),
+          await this.waitAndClickElement(this.locators.cancelVisitBtn,1),
+          await this.waitAndClickElement(this.locators.memberNotShowRadioBtn,1),
+          await this.locators.moreInformationTextBox.pressSequentially("test"),
+          await this.waitAndClickElement(this.locators.yesCancelVisitBtn,1),
+        ])
+      }
+    }catch(e){
+      console.log(e)
+    }
   }
 
 }

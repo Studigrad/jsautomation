@@ -1,6 +1,7 @@
 // @ts-check
 import { expect, type Locator, type Page } from "@playwright/test";
 import { PwAbstractPage } from "./PwAbstractPage";
+
 export class CreateAccPage extends PwAbstractPage {
   readonly locators: Record<string, Locator>;
   readonly page: Page;
@@ -57,14 +58,14 @@ export class CreateAccPage extends PwAbstractPage {
     await this.locators.birth.pressSequentially(birth)
     await this.locators.firstContinueBtn.click()
     await this.locators.okBtn.click()
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async fillAccountDetail() {
     await this.locators.sexSelect.click()
     await this.locators.male.click()
     await this.locators.continueBtn.click()
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async fillAddressAndContact(street: string,city: string,zip: string,phone: string) {
@@ -76,14 +77,14 @@ export class CreateAccPage extends PwAbstractPage {
     await this.locators.phoneNumberField.pressSequentially(phone)
     await this.locators.agreeRadioBtn.click()
     await this.locators.continueBtn.click()
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 
   async setupPassword(password: string) {
     await this.locators.passwordField.pressSequentially(password);
     await this.locators.passwordConfirmField.pressSequentially(password);
     await this.locators.savePasswordBtn.click();
-    await this.page.waitForLoadState();
+    await this.waitForPageToLoad()
   }
 }
 

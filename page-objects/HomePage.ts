@@ -77,10 +77,12 @@ export class HomePage extends PwAbstractPage{
     await this.locators.typeOfVisitBtn['medicalNow'].click()
     await this.locators.nextBtn.click()
     await this.createHealthProfile()
-    await this.page.waitForLoadState("load")
+    await this.waitForPageToLoad()
+
     await this.getCareSecondSteps()
     await this.addPharmacy()
-    await this.page.waitForLoadState("load")
+    await this.waitForPageToLoad()
+
     await this.locators.selectPharmacyBtn.click()
     await this.locators.nextBtn.click()
     await this.locators.nextBtn.click()
@@ -98,7 +100,7 @@ export class HomePage extends PwAbstractPage{
   }
 
   async getCareSecondSteps() {
-    if(await this.isMyElementVisible(this.locators.nextBtn)){
+    if(await this.isMyElementVisible(this.locators.nextBtn) && !await this.locators.nextBtn.isDisabled()){
       await this.locators.nextBtn.click();
     }
     await this.locators.toBeSeenForBtn.click();
@@ -113,8 +115,8 @@ export class HomePage extends PwAbstractPage{
     await this.locators.paymentRequiredCloseBtn.click()
     await this.locators.selectCardBtn.click()
     await this.locators.nextBtn.click()
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
     await expect(this.locators.visitCardOnDemandBtn).toBeVisible()
   }
 
@@ -162,29 +164,29 @@ export class HomePage extends PwAbstractPage{
     await this.locators.cancelVisitBtn.click()
     await this.locators.noLongerNeededBtn.click()
     await this.locators.yesCancelVisitBtn.click()
-    await this.page.waitForLoadState("load")
+    await this.waitForPageToLoad()
     await expect(this.locators.visitCardOnDemandBtn).not.toBeVisible()
   }
 
   async acceptVisit(){
     if(await this.isMyElementVisible(this.locators.yesJoinVisitBtn)){
       await this.locators.yesJoinVisitBtn.click()
-      await this.page.waitForLoadState("load")
+      await this.waitForPageToLoad()
     }else{
       await this.locators.joinVisitBtn.click()
-      await this.page.waitForLoadState("load")
+      await this.waitForPageToLoad()
     }
   }
 
   async skipRates(){
     while(await this.locators.skipRateBtn.isVisible()){
       await this.locators.skipRateBtn.click();
-      await this.page.waitForLoadState("load")
+      await this.waitForPageToLoad()
     }
   }
 
   async createHealthProfile(){
-    await this.waitAndClickElement(this.locators.nextBtn,1000)
+    await this.waitAndClickElement(this.locators.nextBtn,1)
     
     await this.locators.feetHeightSelect.click()
     await this.locators.feet5SelectOption.click()
@@ -198,13 +200,13 @@ export class HomePage extends PwAbstractPage{
     await this.locators.drinkAlcoholNo.click()
     await this.locators.sexualActiveNo.click()
   
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
-    await this.waitAndClickElement(this.locators.nextBtn,2000)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
+    await this.waitAndClickElement(this.locators.nextBtn,2)
   }
 
   async addPharmacy(){

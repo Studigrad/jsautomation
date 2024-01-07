@@ -20,6 +20,7 @@ const password = "*bstract1nheritEncapspoly"
 
 test.describe.skip("Playwright POC - member web",()=> {
     test("e2e Create User POC",async({loginPage,createAccPage})=>{
+      
         let stamp = Math.floor(new Date().getTime()/1000.0)
         let mail = newEmail+stamp+"@gmail.com"
         await loginPage.goto()
@@ -29,5 +30,8 @@ test.describe.skip("Playwright POC - member web",()=> {
         if(await createAccPage.isMyElementVisible(createAccPage.locators.homeText)){
           await expect(createAccPage.locators.homeText).toBeVisible()
         }
+
+
+
       })
 })

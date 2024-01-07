@@ -6,6 +6,7 @@ import {type Page } from '@playwright/test';
 import dotenv from 'dotenv';;
 import 'dotenv/config'
 import { ProviderHomePage } from '../../page-objects/ProviderHomePage';
+import { it } from 'node:test';
 dotenv.config();
 
 const email = "timelyautomation+payfails@gmail.com"
@@ -38,7 +39,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
     loginPageProvider = new LoginPage(page2)
     providerPage = new ProviderHomePage(page2)
   });
-
+  
   test.afterAll(async () => {
     await context.close();
   });

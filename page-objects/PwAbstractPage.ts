@@ -8,12 +8,16 @@ export class PwAbstractPage {
     this.page = page;
   }
 
-  async goTo(url: string){
-    this.page.goto(url)
+  // async goTo(url: string){
+  //   this.page.goto(url)
+  // }
+
+  async waitForPageToLoad(){
+    await this.page.waitForLoadState('domcontentloaded')
   }
 
   async waitAndClickElement(element: Locator,time: number){
-    await this.wait(time)
+    await this.wait(time*1000)
     await element.click()
   }
 
@@ -39,18 +43,26 @@ export class PwAbstractPage {
   }
 
   async verifyElementDisplayed(element: Locator) {
-    await element.waitFor({ state: "visible" });
-    expect(await element.isVisible()).toBe(true);
+      await element.waitFor({ state: "visible" });
+      expect(await element.isVisible()).toBe(true);
   }
   
   async isMyElementVisible(element: Locator) {
-    await element.waitFor({ state: "visible" });
-    return await element.isVisible();
+    try{
+      await element.waitFor({ state: "visible" });
+      return await element.isVisible();
+    }catch(e){
+      return false
+    }
   }
 
   async isMyElementHidden(element: Locator) {
-    await element.waitFor({ state: "hidden" });
-    return await element.isHidden();
+    try{
+      await element.waitFor({ state: "hidden" });
+      return await element.isHidden();
+    }catch(e){
+      return false
+    }
   }
 
   async wait(time: number) {

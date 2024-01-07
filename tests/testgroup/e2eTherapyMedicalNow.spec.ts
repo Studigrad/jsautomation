@@ -15,7 +15,7 @@ dotenv.config();
 const email = "timelyautomation+payfails@gmail.com"
 const pass = "*bstract1nheritEncapspoly"
 
-test.describe("Playwright - Member creation and provider completion for scheduled therapy", () => {
+test.describe("Playwright - Member creation and provider completion for MedicalNow therapy", () => {
   test.describe.configure({ mode: 'serial' });
 
   let context: BrowserContext;
@@ -48,7 +48,16 @@ test.describe("Playwright - Member creation and provider completion for schedule
     await setTestStatus(testInfo, pages, context);
   });
 
-  test("Login as a member ...",async()=>{
+  test("Login as a provider ...", async () => {
+    await page2.bringToFront()
+    await loginPageProvider.loginAsProvider(process.env.PROVIDER_ACCOUNT_1 || email,process.env.PROVIDER_PASSWORD_1 || pass)
+  });
+
+  test("Close existing visits ...", async () => {
+    await providerPage.closeLastVisits()
+   });
+
+  test("Playwright - Member creation and provider completion for MedicalNow therapy",async()=>{
     await page1.bringToFront()
     await loginPageMember.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
   })
@@ -57,12 +66,9 @@ test.describe("Playwright - Member creation and provider completion for schedule
     await homePageMember.e2egetCareFlowMedicalNow()
   });
 
-  test("Login as a provider ...", async () => {
-    await page2.bringToFront()
-    await loginPageProvider.loginAsProvider(process.env.PROVIDER_ACCOUNT_1 || email,process.env.PROVIDER_PASSWORD_1 || pass)
-  });
 
   test("Start a therapy visit ...",async()=>{
+    await page2.bringToFront()
     await providerPage.startTherapy()
   })
 
@@ -84,4 +90,4 @@ test.describe("Playwright - Member creation and provider completion for schedule
 });
 
 
-//async scheduleCurrentVisit(memberData, providerData, visitType, reasonForVisit)
+
