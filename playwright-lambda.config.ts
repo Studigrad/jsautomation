@@ -8,7 +8,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 
 export default defineConfig({
-  testDir: './tests/testgroup',
+  testDir: './tests/lambda',
   timeout: 5 * 6 * 1000,
   fullyParallel: false,
   // forbidOnly: !!process.env.CI,
@@ -20,7 +20,6 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot:"only-on-failure"
   },
-
   projects: [
     // {
     //     name: 'chromium',

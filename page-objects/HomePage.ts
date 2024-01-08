@@ -47,7 +47,7 @@ export class HomePage extends PwAbstractPage{
   
       yesJoinVisitBtn: this.page.getByRole('button', { name: 'YES, JOIN VISIT' }),
       skipRateBtn : this.page.getByRole('button', { name: 'Skip' }),
-      joinVisitBtn: this.page.locator('(//button[contains(text(), "Join Visit")])[1]'),
+      joinVisitBtn: this.page.locator('(//button[contains(text(), "Join")])[1]'),
 
       feetHeightSelect: this.page.getByTestId('medical-general-height-feet'),
       feet5SelectOption: this.page.getByRole('option', { name: '5 Feet' }),

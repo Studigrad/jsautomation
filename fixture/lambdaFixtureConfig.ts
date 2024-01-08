@@ -3,11 +3,15 @@ import { chromium, test as base, Page, BrowserContext } from "@playwright/test";
 import { HomePage } from '../page-objects/HomePage';
 import { LoginPage } from '../page-objects/LoginPage';
 import path from "path"
+import { ProviderHomePage } from "../page-objects/ProviderHomePage";
 
 type pages = {
-    page1: Page;
-    page2: Page;
+    loginPageMember: LoginPage;
+    loginPageProvider: LoginPage;
+    homePageMember: HomePage;
+    providerPage: ProviderHomePage;
     browserContext: BrowserContext;
+    testHook: void
 }
 
 // LambdaTest capabilities
@@ -53,44 +57,64 @@ const modifyCapabilities = (configName, testName) => {
     capabilities["LT:Options"]["name"] = testName;
 };
 
+const getErrorMessage = (obj: any, keys: any[]) =>
+    keys.reduce(
+        (obj: { [x: string]: any; }, key: string | number) => (typeof obj == "object" ? obj[key] : undefined),
+        obj
+    );
+//<{ testHook: void,browserContext: any }>
       export const test = base.extend<pages>({
-        //<{ testHook: void,browserContext: any }>
         // testHook: [
-        //     async ({page}, use) => {
+        //     async ({}, use) => {
         //       console.log("BEFORE EACH HOOK FROM FIXTURE");
-        //       // Any code here will be run as a before each hook
         
         //       await use();
         
         //       console.log("AFTER EACH HOOK FROM FIXTURE");
-        //       // Put any code you want run automatically after each test here
         //     },
         //     { auto: true },
         //   ],
-        browserContext: async ({}, use, testInfo) => {
+        page: async ({}, use, testInfo) => {
             let fileName = testInfo.file.split(path.sep).pop();
             if (testInfo.project.name.match(/lambdatest/)) {
                 modifyCapabilities(
                     testInfo.project.name,
                     `${testInfo.title} - ${fileName}`
                 );
-            const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`)
-            const context = await browser.newContext(testInfo.project.use)
-            await context.grantPermissions(['camera','microphone']);
-            await use(context);
-            // await context.close();
-            // await browser.close();
+                const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`)
+                const context = await browser.newContext(testInfo.project.use)
+                await context.grantPermissions(['microphone','camera']);
+                const lmdPage = await context.newPage()
+                await use(lmdPage)
+                const testStatus = {
+                        action: "setTestStatus",
+                        arguments: {
+                            status: testInfo.status,
+                            remark: getErrorMessage(testInfo, ["error", "message"]),
+                        },
+                    };
+                await lmdPage.evaluate(() => { },`lambdatest_action: ${JSON.stringify(testStatus)}`);
+                await lmdPage.close()
+                await context.close()
+                await browser.close()
                 }else{
                     const browser = await chromium.launch();
                     const context = await browser.newContext();
                     await context.grantPermissions(['camera','microphone']);
-                    await use(context);
+                    const page = await context.newPage()
+                    await use(page);
                 }
         },
-        page1: async ({ browserContext }, use) => {
-            await use(await browserContext.newPage());
+        loginPageMember: async ({ page }, use) => {
+            await use(new LoginPage(page));
         },
-        page2: async ({ browserContext }, use) => {
-            await use(await browserContext.newPage());
+        loginPageProvider: async ({ page }, use) => {
+            await use(new LoginPage(page));
+        },
+        homePageMember: async ({ page }, use) => {
+            await use(new HomePage(page));
+        },
+        providerPage: async ({ page }, use) => {
+            await use(new ProviderHomePage(page));
         },
     });

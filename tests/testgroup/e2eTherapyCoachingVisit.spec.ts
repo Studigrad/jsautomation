@@ -47,7 +47,7 @@ test.describe.skip("Playwright - Member creation and provider completion for sch
   });
 
   test.afterAll(async ({},testInfo) => {
-    await setTestStatus(testInfo, pages, context);
+    await setTestStatus(testInfo, pages);
   });
 
   test("Login as a provider ...", async () => {

@@ -60,7 +60,7 @@ test.describe("Playwright - User creation and provider completion for ondemand t
 
 
   test.afterAll(async ({},testInfo) => {
-    await setTestStatus(testInfo, pages, context);
+    await setTestStatus(testInfo, pages);
   });
 
   test("Login as a provider ...", async () => {

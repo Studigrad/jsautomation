@@ -31,7 +31,5 @@ test.describe.skip("Playwright POC - member web",()=> {
           await expect(createAccPage.locators.homeText).toBeVisible()
         }
 
-
-
       })
 })

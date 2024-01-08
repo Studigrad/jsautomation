@@ -25,7 +25,7 @@ const getErrorMessage = (obj: any, keys: any[]) =>
         obj
     );
 
-export async function setTestStatus(testInfo, pages: Page[], browserContext: BrowserContext) {
+export async function setTestStatus(testInfo, pages: Page[]) {
   const testStatus = {
     action: "setTestStatus",
     arguments: {
@@ -37,5 +37,5 @@ export async function setTestStatus(testInfo, pages: Page[], browserContext: Bro
   pages.forEach(async(element) => {
     await element.close();
   });
-  await browserContext.close();
+  //await browserContext.close();
 }

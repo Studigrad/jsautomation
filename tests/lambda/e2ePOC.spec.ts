@@ -13,7 +13,4 @@ test.describe.skip("Playwright POC - member web",()=> {
         await homePage.e2egetCareFlowMedicalNow()
         await homePage.deleteCard("demand")
       })
-      
-    
 })
-
