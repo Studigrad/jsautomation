@@ -49,11 +49,12 @@ export class ProviderHomePage extends PwAbstractPage {
   }
 
   async startTherapy() {
-    await this.locators.queueTab.click();
-    await this.locators.claimPatientBtn.click();
-    await this.locators.confirmClaimBtn.click();
-    await this.locators.openVisitBtn.click();
-    await this.locators.startVisitBtn.click();
+    await this.clickElement(this.locators.queueTab)
+    await this.clickElement(this.locators.claimPatientBtn)
+    await this.clickElement(this.locators.confirmClaimBtn)
+    await this.clickElement(this.locators.openVisitBtn)
+    await this.waitForPageToLoad()
+    await this.clickElement(this.locators.startVisitBtn)
     await this.waitForPageToLoad()
   }
 
@@ -97,9 +98,9 @@ export class ProviderHomePage extends PwAbstractPage {
   }
 
   private async finishTherapy() {
-    await this.locators.endVisitBtn.click();
-    await this.locators.yesEndVisitBtn.click();
-    await this.locators.finishVisitBtn.click();
+    await this.clickElement(this.locators.endVisitBtn)
+    await this.clickElement(this.locators.yesEndVisitBtn)
+    await this.clickElement(this.locators.finishVisitBtn)
     await this.waitForPageToLoad()
   }
 
@@ -153,11 +154,11 @@ export class ProviderHomePage extends PwAbstractPage {
       let btns = await this.locators.allVisitBtns.all()
       if(btns.length>0){
         await Promise.all([,
-          await this.waitAndClickElement(btns[0],1),
-          await this.waitAndClickElement(this.locators.cancelVisitBtn,1),
-          await this.waitAndClickElement(this.locators.memberNotShowRadioBtn,1),
+          await this.clickElement(btns[0],1),
+          await this.clickElement(this.locators.cancelVisitBtn,1),
+          await this.clickElement(this.locators.memberNotShowRadioBtn,1),
           await this.locators.moreInformationTextBox.pressSequentially("test"),
-          await this.waitAndClickElement(this.locators.yesCancelVisitBtn,1),
+          await this.clickElement(this.locators.yesCancelVisitBtn,1),
         ])
       }
     }catch(e){

@@ -8,8 +8,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 
 export default defineConfig({
-  testDir: './tests/lambda',
-  timeout: 5 * 6 * 1000,
+  testDir: './tests/testgroup',
+  timeout: 5 * 8 * 1000,
   fullyParallel: false,
   // forbidOnly: !!process.env.CI,
   retries: 1,
@@ -21,13 +21,13 @@ export default defineConfig({
     screenshot:"only-on-failure"
   },
   projects: [
-    // {
-    //     name: 'chromium',
-    //     use: { 
-    //       ...devices['Desktop Chrome'],
-    //       headless: false 
-    //     },  
-    //   },
+    {
+        name: 'chromium',
+        use: { 
+          ...devices['Desktop Chrome'],
+          headless: false 
+        },  
+      },
     // {
     //     name: "chrome:latest:MacOS Catalina@lambdatest",
     //     use: {
@@ -40,12 +40,12 @@ export default defineConfig({
     //         }
     //     },
     // },
-    {
-        name: "chrome:latest:Windows 10@lambdatest",
-        use: {
-            viewport: { width: 1920, height: 1080},
-        },
-    },
+    // {
+    //     name: "chrome:latest:Windows 10@lambdatest",
+    //     use: {
+    //         viewport: { width: 1920, height: 1080},
+    //     },
+    // },
 
     // {
     //   name: 'firefox',

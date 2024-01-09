@@ -3,7 +3,7 @@ require('dotenv').config()
 
 class Api {
 async returnMemberObject(memberEmail, memberPassword, memberType = 'member') {
-  const memberHost = `QA-member.timelymd.io`
+  const memberHost = `${process.env.CODE_ENV}-member.timelymd.io`
 
   let url = 'https://' + memberHost + '/v1/me/login'
 
@@ -33,7 +33,7 @@ async returnMemberObject(memberEmail, memberPassword, memberType = 'member') {
 async loginProvider(providerEmail, providerPassword) {
   let environmentCode = process.env.CODE_ENV
 
-  const providerHost = `qa-provider.timelymd.io`
+  const providerHost = `${process.env.CODE_ENV}-provider.timelymd.io`
 
   let url = 'https://' + providerHost + '/v1/me/login'
 
@@ -62,7 +62,7 @@ async loginProvider(providerEmail, providerPassword) {
 
 async scheduleCurrentVisit(memberData, providerData, visitType, reasonForVisit) {
   const date = new Date()
-  const hostName = `QA-member.timelymd.io`
+  const hostName = `${process.env.CODE_ENV}-member.timelymd.io`
   const currentDate = moment(date.setSeconds(date.getSeconds() + 3))
     .utc()
     .format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
@@ -86,10 +86,10 @@ async scheduleCurrentVisit(memberData, providerData, visitType, reasonForVisit) 
       provider_name: providerData.provider_name,
       provider_id: providerData.provider_id,
       modality: 'video',
-      // phone: {
-      //   number: memberData.member.phones[0].number, //FIXME: Removing this test from pipeline to investigate member data response no longer providing the members cell
-      //   type: memberData.member.phones[0].type,
-      // },
+      phone: {
+        number: memberData.member.phones[0].number, //FIXME: Removing this test from pipeline to investigate member data response no longer providing the members cell
+        type: memberData.member.phones[0].type,
+      },
       reason_for_visit: reasonForVisit,
       location_country: 'US',
       location: 'TX',
@@ -110,6 +110,13 @@ async scheduleCurrentVisit(memberData, providerData, visitType, reasonForVisit) 
     console.log(response.status)
     return response.json()
   })
+
+  // let [visitData] = psychVisitNow.data.paginated
+
+  // console.log('pending visit data:', visitData)
+  // console.log('pending visit id:', visitData.pending_visit_id)
+
+  return 0 //visitData.pending_visit_id
 }
 }
 

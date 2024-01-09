@@ -50,16 +50,19 @@ test.describe("Playwright - Member creation and provider completion for schedule
 
   test("Create new Counselling therapy visit as member", async () => {
     [date,time] = await homePageMember.e2eGetCareFlowCounselingOrCoaching("counseling")
-    let memberData = await api.returnMemberObject(process.env.MEMBER_ACCOUNT_1, process.env.MEMBER_PASSWORD_1);
-    let providerData = await api.loginProvider(process.env.PROVIDER_ACCOUNT_1, process.env.PROVIDER_PASSWORD_1);
+  });
+
+  test.only("API - Rewrite appointment",async()=>{
+    let memberData = await api.returnMemberObject("timely.bot.member.1@gmail.com", "Test12345@");
+    let providerData = await api.loginProvider("timely.bot.provider.1@gmail.com", "Test12345###");
     let createCurrentVisit = await api.scheduleCurrentVisit(
       memberData,
       providerData,
       "counseling",
-      "Paranoia, Food/Body Image Issues, Mood Issues",
+      "Anxiety",
     );
-  });
-
+  })
+  
   test("Login as a provider ...", async () => {
     await loginPageProvider.loginAsProvider(process.env.PROVIDER_ACCOUNT_1 || email,process.env.PROVIDER_PASSWORD_1 || pass)
   });
