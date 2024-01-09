@@ -48,7 +48,7 @@ test.describe.skip("Playwright - Member creation and provider completion for sch
   });
 
   test("Start a Health Coaching therapy visit ...",async()=>{
-    await provider.homePage.startScheduledTherapy(date,time)
+    await provider.homePage.startScheduledTherapy([date,time])
   })
 
   test("Accept Health Coaching visit as a member",async()=>{

@@ -7,6 +7,7 @@ import api from '../../page-objects/components/api';
 import dotenv from 'dotenv';;
 import 'dotenv/config'
 import { ProviderHomePage } from '../../page-objects/ProviderHomePage';
+import { convertDateToArray } from "../../helpers/helpers";
 dotenv.config();
 
 const email = "timelyautomation+payfails@gmail.com"
@@ -27,6 +28,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
   let date: string;
   let time: string;
 
+  let result:any
   test.beforeAll(async ({browser}) => {
     context = await browser.newContext()
     await context.grantPermissions(['microphone','camera']);
@@ -48,27 +50,29 @@ test.describe("Playwright - Member creation and provider completion for schedule
     await loginPageMember.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
   })
 
-  test("Create new Counselling therapy visit as member", async () => {
-    [date,time] = await homePageMember.e2eGetCareFlowCounselingOrCoaching("counseling")
-  });
+  // test("Create new Counselling therapy visit as member", async () => {
+  //   [date,time] = await homePageMember.e2eGetCareFlowCounselingOrCoaching("counseling")
+  // });
 
-  test.only("API - Rewrite appointment",async()=>{
+  test("API - Rewrite appointment",async()=>{
     let memberData = await api.returnMemberObject("timely.bot.member.1@gmail.com", "Test12345@");
     let providerData = await api.loginProvider("timely.bot.provider.1@gmail.com", "Test12345###");
     let createCurrentVisit = await api.scheduleCurrentVisit(
       memberData,
       providerData,
-      "counseling",
+      "psychiatry",
       "Anxiety",
     );
+    result = convertDateToArray(createCurrentVisit)
+    //console.log(convertDateToArray(createCurrentVisit))
   })
-  
+
   test("Login as a provider ...", async () => {
     await loginPageProvider.loginAsProvider(process.env.PROVIDER_ACCOUNT_1 || email,process.env.PROVIDER_PASSWORD_1 || pass)
   });
 
   test("Start a Counselling therapy visit ...",async()=>{
-    await providerPage.startScheduledTherapy(date,time)
+    await providerPage.startScheduledTherapy(result)
   })
 
   test("Accept Counselling visit as a member",async()=>{

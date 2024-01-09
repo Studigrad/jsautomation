@@ -110,13 +110,13 @@ async scheduleCurrentVisit(memberData, providerData, visitType, reasonForVisit) 
     console.log(response.status)
     return response.json()
   })
-
+  console.log(currentDate.toString())
   // let [visitData] = psychVisitNow.data.paginated
 
   // console.log('pending visit data:', visitData)
   // console.log('pending visit id:', visitData.pending_visit_id)
 
-  return 0 //visitData.pending_visit_id
+  return currentDate.toString() //visitData.pending_visit_id
 }
 }
 
