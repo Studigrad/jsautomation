@@ -69,7 +69,6 @@ test.describe("Playwright - User creation and provider completion for ondemand t
   test("Accept visit as a member",async()=>{
     await member.page.bringToFront()
     await member.homePage.acceptVisit()
-    //await page2.pause()
   })
 
   test("End therapy visit",async()=>{

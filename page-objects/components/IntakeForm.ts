@@ -40,4 +40,20 @@ export class IntakeForm extends PwAbstractPage {
     }
   }
 
+  async fillFormCounseling(){
+    let questions = [1,3,4,5,7,8,10,12,13,14,15,16,17,18,19,20,21,23,24,25,27,29,31,33,35,37,39,40,45]
+    for (const q of questions) {
+      await this.page.locator(`//input[@id='intake-question:${q}:1']`).click()
+    }
+    await this.page.locator('//textarea[@id="intake-question:26"]').pressSequentially("test")
+    await this.page.locator('//textarea[@id="intake-question:42"]').pressSequentially("test")
+  }
+
+  async fillFormPsychiatry(){
+    let questions = [1,3,4,5,7,8,9,10,11,12,13,14,15,16]
+    for (const q of questions) {
+      await this.page.locator(`//input[@id='intake-question:${q}:1']`).click()
+    }
+  }
+
 }

@@ -69,6 +69,14 @@ export class HomePage extends PwAbstractPage{
 
       availableProviderBtn: this.page.getByLabel('Jen Roboto, MD, LPC, ProviderTimelyMD'),
       availableTimeBtn: this.page.getByTestId('new-visit-slot-time-0--button').locator('div').first(),
+
+      yesTakeIntakeBtn: this.page.getByRole('button', { name: 'TAKE INTAKE' }),
+      startTheAssesmentBtn: this.page.getByTestId('dashboard-visit-assessment-entry-modal-start--button'),
+      severalDaysRadioBtn: this.page.locator('//label[text()="Several days"]/preceding-sibling::input'),
+      nextSurveyBtn: this.page.getByRole('button', { name: 'Next', exact: true }),
+      finishSurveyBtn: this.page.getByRole('button', { name: 'Finish' }),
+      continueTherapyAfterSurveyBtn: this.page.getByTestId('dashboard-visit-assessment-entry-modal-continue--button')
+
     }
   }
 
@@ -217,6 +225,33 @@ export class HomePage extends PwAbstractPage{
     await this.locators.stateNoneOption.click()
     await this.locators.searchPharmacyBtn.click()
     await this.locators.addFirstPharmacyBtn.click()
+  }
+
+  async fillTheSurvey(){
+    if(await this.isMyElementVisible(this.locators.yesTakeIntakeBtn)){
+    await this.locators.yesTakeIntakeBtn.click()
+    }else{
+      await this.page.getByTestId('dashboard-visit-assessment-entry--button').first().click()
+    }
+    await this.waitForPageToLoad()
+    await this.locators.startTheAssesmentBtn.click()
+    await this.waitForPageToLoad()
+    const btns = await this.page.locator('//label[text()="Several days"]/preceding-sibling::input').all()
+    for(let btnFirst of btns){
+      await this.clickElement(btnFirst)
+
+    }
+    await this.clickElement(this.locators.nextSurveyBtn)
+    await this.waitForPageToLoad()
+    const newBtns = await this.page.locator('//label[text()="Several days"]/preceding-sibling::input').all()
+    for(let btnSecond of newBtns){
+      await this.clickElement(btnSecond)
+    }
+    await this.page.locator("(//input[@name='phq9_08'])[2]").click()
+    await this.page.locator("(//input[@name='phq9_09'])[2]").click()
+    await this.clickElement(this.locators.finishSurveyBtn)
+    await this.waitForPageToLoad()
+    await this.clickElement(this.locators.continueTherapyAfterSurveyBtn)
   }
 
 }

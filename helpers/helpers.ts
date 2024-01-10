@@ -62,8 +62,10 @@ export function convertDateToArray(inputDate: string): (number | string)[] {
   const day = date.getDate().toString();
   const hours = date.getHours().toString();
   const minutes = date.getMinutes().toString();
+  let minRes = Number(minutes)
 
-  const arr: string[] = [day, convertToAMPM(hours), minutes];
+
+  const arr: string[] = [day, convertToAMPM(hours), (minRes>=0 && minRes<10) ? "0"+minutes : minutes];
 
   return arr;
 }

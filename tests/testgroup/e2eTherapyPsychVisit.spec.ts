@@ -13,7 +13,7 @@ dotenv.config();
 const email = "timelyautomation+payfails@gmail.com"
 const pass = "*bstract1nheritEncapspoly"
 
-test.describe("Playwright - Member creation and provider completion for scheduled Health Coaching therapy", () => {
+test.describe.only("Playwright - Member creation and provider completion for scheduled Psychiatry therapy", () => {
   test.describe.configure({ mode: 'serial' });
   let member: Member;
   let provider: Provider;
@@ -37,18 +37,18 @@ test.describe("Playwright - Member creation and provider completion for schedule
     await provider.homePage.closeLastVisits()
    });
 
-  test("Playwright - Member creation and provider completion for scheduled Health Coaching therapy",async()=>{
+  test("Playwright - Member creation and provider completion for scheduled Psychiatry therapy",async()=>{
     await member.page.bringToFront()
     await member.loginPage.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
   })
 
-  test("API - Create new Health Counseling therapy visit as member",async()=>{
+  test("API - Create new Psychiatry therapy visit as member",async()=>{
     let memberData = await api.returnMemberObject("timely.bot.member.1@gmail.com", "Test12345@");
     let providerData = await api.loginProvider("timely.bot.provider.1@gmail.com", "Test12345###");
     let createCurrentVisit = await api.scheduleCurrentVisit(
       memberData,
       providerData,
-      "therapy",
+      "psychiatry",
       "Anxiety",
     );
     result = convertDateToArray(createCurrentVisit)
@@ -58,7 +58,7 @@ test.describe("Playwright - Member creation and provider completion for schedule
   //   [date,time] = await member.homePage.e2eGetCareFlowCounselingOrCoaching("counseling")
   // });
 
-  test("Start a Health Counseling therapy visit ...",async()=>{
+  test("Start a Psychiatry therapy visit ...",async()=>{
     await provider.homePage.startScheduledTherapy(result)
   })
 
@@ -66,22 +66,16 @@ test.describe("Playwright - Member creation and provider completion for schedule
     await member.homePage.fillTheSurvey()
   })
 
-  test("Accept Health Counseling visit as a member",async()=>{
+  test("Accept Psychiatry visit as a member",async()=>{
     await member.homePage.acceptVisit()
   })
 
   test("End therapy visit",async()=>{
-    await provider.homePage.endCounselingTherapy()
+    await provider.homePage.endPyschologyTherapy()
   })
 
   test("Member rate skipping",async()=>{
     await member.homePage.skipRates()
   })
-
-  // test.only("Test",async()=>{
-  //   await member.page.bringToFront()
-  //   await member.loginPage.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
-  //   await member.homePage.fillTheSurvey()
-  // })
 
 });

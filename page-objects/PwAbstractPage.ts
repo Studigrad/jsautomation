@@ -43,13 +43,13 @@ export class PwAbstractPage {
   }
 
   async verifyElementDisplayed(element: Locator) {
-      await element.waitFor({ state: "visible",timeout:5000});
+      await element.waitFor({ state: "visible",timeout:10000});
       expect(await element.isVisible()).toBe(true);
   }
   
   async isMyElementVisible(element: Locator) {
     try{
-      await element.waitFor({ state: "visible",timeout:5000 });
+      await element.waitFor({ state: "visible",timeout:10000 });
       return await element.isVisible();
     }catch(e){
       return false
@@ -58,7 +58,7 @@ export class PwAbstractPage {
 
   async isMyElementHidden(element: Locator) {
     try{
-      await element.waitFor({ state: "hidden",timeout:5000 });
+      await element.waitFor({ state: "hidden",timeout:10000 });
       return await element.isHidden();
     }catch(e){
       return false

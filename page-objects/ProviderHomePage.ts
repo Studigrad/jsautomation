@@ -79,12 +79,17 @@ export class ProviderHomePage extends PwAbstractPage {
   }
 
   async startScheduledTherapy(date: string | any[]) {
+    //await this.page.getByText(`${date[0]}${date[1]}:${date[2]}`).click();
+    // if (await this.isMyElementVisible(this.locators.selectScheduledVistiBtn)) {
+    //   await this.locators.selectScheduledVistiBtn.click();
+    // }
     await this.locators.scheduleTab.click();
-    await this.page.getByText(`${date[0]}${date[1]}:${date[2]}`).click();
-    if (await this.isMyElementVisible(this.locators.selectScheduledVistiBtn)) {
-      await this.locators.selectScheduledVistiBtn.click();
-    }
+    await this.page.getByText(date[0], { exact: true }).click()
+    await this.page.getByRole('cell', { name: `${date[1]}:${date[2]}` }).click()
     await this.locators.goToVisitBtn.click();
+    await this.waitForPageToLoad();
+    await this.page.getByRole('button', { name: '×' }).click()
+    await this.locators.startVisitBtn.click()
     await this.waitForPageToLoad();
   }
 
@@ -104,7 +109,7 @@ export class ProviderHomePage extends PwAbstractPage {
   async endTalklNowTherapy() {
     await this.finishTherapy();
 
-    await this.fillIntakeForm();
+    await this.fillIntakeForm("talkNow");
     await this.waitForPageToLoad();
 
     await this.fillNotesForm();
@@ -115,6 +120,60 @@ export class ProviderHomePage extends PwAbstractPage {
 
     await this.locators.submitAndCompleteVisitBtn.click();
     await this.waitForPageToLoad();
+  }
+
+  async endCounselingTherapy() {
+    await this.finishTherapy();
+
+    await this.fillIntakeForm("counseling");
+    await this.waitForPageToLoad();
+
+    await this.fillScheduledNotesForm()
+    await this.waitForPageToLoad();
+
+    await this.fillDischargeForm();
+    await this.waitForPageToLoad();
+
+    await this.locators.submitAndCompleteVisitBtn.click();
+    await this.waitForPageToLoad();
+  }
+
+  async endCoachingTherapy(){
+    await this.finishTherapy();
+
+    await this.fillScheduledNotesForm();
+    await this.waitForPageToLoad();
+
+    await this.fillDischargeForm();
+    await this.waitForPageToLoad();
+
+    await this.locators.submitAndCompleteVisitBtn.click();
+    await this.waitForPageToLoad();
+  }
+
+  async endPyschologyTherapy(){
+    await this.finishTherapy();
+
+    await this.fillIntakeForm("psychiatry");
+    await this.waitForPageToLoad();
+
+    await this.fillDiagnosisForm();
+    await this.waitForPageToLoad();
+
+    await this.fillDischargeForm();
+    await this.waitForPageToLoad();
+
+    await this.locators.submitAndCompleteVisitBtn.click();
+    await this.waitForPageToLoad();
+  }
+
+  async fillScheduledNotesForm(){
+    await this.locators.editNotesBtn.click();
+    await this.locators.visitNotesInputField.pressSequentially("test");
+    await this.locators.icdSearch.pressSequentially("test");
+    await this.locators.icdFindBtn.click();
+    await this.locators.icdValue.click();
+    await this.locators.finishVisitBtn.click();
   }
 
   private async finishTherapy() {
@@ -130,10 +189,18 @@ export class ProviderHomePage extends PwAbstractPage {
     await this.locators.finishVisitBtn.click();
   }
 
-  async fillIntakeForm() {
+  async fillIntakeForm(type: string | undefined) {
     await this.locators.editIntakeBtn.click();
     await this.waitForPageToLoad();
-    await this.intakeForm.fillForm();
+
+    if(type=="counseling"){
+      await this.intakeForm.fillFormCounseling()
+    }else if(type=="psychiatry"){
+      await this.intakeForm.fillFormPsychiatry()
+    }
+    else{
+      await this.intakeForm.fillForm();
+    }
     await this.locators.finishVisitBtn.click();
   }
 
@@ -177,7 +244,6 @@ export class ProviderHomePage extends PwAbstractPage {
       let btns = await this.locators.allVisitBtns.all();
       if (btns.length > 0) {
         await Promise.all([
-          ,
           await this.clickElement(btns[0], 1),
           await this.clickElement(this.locators.cancelVisitBtn, 1),
           await this.clickElement(this.locators.memberNotShowRadioBtn, 1),

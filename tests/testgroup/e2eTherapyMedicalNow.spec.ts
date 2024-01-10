@@ -50,7 +50,6 @@ test.describe("Playwright - Member creation and provider completion for MedicalN
     await member.homePage.e2egetCareFlowMedicalNow()
   });
 
-
   test("Start a therapy visit ...",async()=>{
     await provider.page.bringToFront()
     await provider.homePage.startTherapy()

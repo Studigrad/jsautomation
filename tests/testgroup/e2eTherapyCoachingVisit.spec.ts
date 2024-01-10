@@ -4,21 +4,20 @@ import { test } from '../../fixture/lambdaConfig';
 import {type Page } from '@playwright/test';
 import dotenv from 'dotenv';;
 import 'dotenv/config'
-import { setTestStatus } from '../../helpers/helpers';
+import { convertDateToArray, setTestStatus } from '../../helpers/helpers';
 import { Member } from '../../page-objects/Member';
 import { Provider } from '../../page-objects/Provider';
+import api from '../../page-objects/components/api';
 dotenv.config();
 
 const email = "timelyautomation+payfails@gmail.com"
 const pass = "*bstract1nheritEncapspoly"
 
-test.describe.skip("Playwright - Member creation and provider completion for scheduled Health Coaching therapy", () => {
+test.describe("Playwright - Member creation and provider completion for scheduled Health Coaching therapy", () => {
   test.describe.configure({ mode: 'serial' });
   let member: Member;
   let provider: Provider;
-
-  let date: string;
-  let time: string;
+  let result:any
 
   test.beforeAll(async ({page1,page2}) => {
     member = new Member(page1)
@@ -43,24 +42,41 @@ test.describe.skip("Playwright - Member creation and provider completion for sch
     await member.loginPage.loginAsMember(process.env.MEMBER_ACCOUNT_1 || email,process.env.MEMBER_PASSWORD_1 || pass)
   })
 
-  test("Create new Health Coaching therapy visit as member", async () => {
-    [date,time] = await member.homePage.e2eGetCareFlowCounselingOrCoaching("healthCoaching")
-  });
+  // test("Create new Health Coaching therapy visit as member", async () => {
+  //   [date,time] = await member.homePage.e2eGetCareFlowCounselingOrCoaching("healthCoaching")
+  // });
+  
+  test("API - Create new Health Coaching therapy visit as member",async()=>{
+    let memberData = await api.returnMemberObject("timely.bot.member.1@gmail.com", "Test12345@");
+    let providerData = await api.loginProvider("timely.bot.provider.1@gmail.com", "Test12345###");
+    let createCurrentVisit = await api.scheduleCurrentVisit(
+      memberData,
+      providerData,
+      "hc",
+      "Anxiety",
+    );
+    result = convertDateToArray(createCurrentVisit)
+  })
 
   test("Start a Health Coaching therapy visit ...",async()=>{
-    await provider.homePage.startScheduledTherapy([date,time])
+    await provider.page.bringToFront()
+    await provider.homePage.startScheduledTherapy(result)
   })
+
+  // test("Fill the survey",async()=>{
+  //   await member.homePage.fillTheSurvey()
+  // })
 
   test("Accept Health Coaching visit as a member",async()=>{
-    await member.homePage.deleteCard("scheduled")
+    await member.homePage.acceptVisit()
   })
 
-  // test("End therapy visit",async()=>{
-  //   await provider.homePage.endTalklNowTherapy()
-  // })
+  test("End therapy visit",async()=>{
+    await provider.homePage.endCoachingTherapy()
+  })
 
-  // test("Member rate skipping",async()=>{
-  //   await homePageMember.skipRates()
-  // })
+  test("Member rate skipping",async()=>{
+    await member.homePage.skipRates()
+  })
 
 });

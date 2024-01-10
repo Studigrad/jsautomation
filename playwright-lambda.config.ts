@@ -8,7 +8,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 
 export default defineConfig({
-  testDir: './tests/lambda',
+  testDir: './tests/testgroup',
   timeout: 5 * 8 * 1000,
   fullyParallel: false,
   // forbidOnly: !!process.env.CI,
@@ -28,6 +28,12 @@ export default defineConfig({
           headless: false 
         },  
       },
+  //   {
+  //     name: "chrome:latest:Windows 10@lambdatest",
+  //     use: {
+  //         viewport: { width: 1920, height: 1080},
+  //     },
+  // },
     // {
     //     name: "chrome:latest:MacOS Catalina@lambdatest",
     //     use: {
@@ -40,12 +46,7 @@ export default defineConfig({
     //         }
     //     },
     // },
-    // {
-    //     name: "chrome:latest:Windows 10@lambdatest",
-    //     use: {
-    //         viewport: { width: 1920, height: 1080},
-    //     },
-    // },
+
 
     // {
     //   name: 'firefox',
