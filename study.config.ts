@@ -6,48 +6,37 @@ import { defineConfig, devices } from '@playwright/test';
  */
 // require('dotenv').config();
 
+/**
+ * See https://playwright.dev/docs/test-configuration.
+ * 
+ */
 
 export default defineConfig({
-  testDir: './tests/testgroup',
-  timeout: 5 * 8 * 1000,
+  testDir: './tests/study/test',
+  timeout: 5 * 6 * 1000,
   fullyParallel: false,
   // forbidOnly: !!process.env.CI,
   retries: 1,
   workers: 1,
   reporter: 'html',
   use: {
-    // baseURL: 'https://staging.timelycare.com/',
+    //baseURL: 'https://staging.timelycare.com/',
     trace: 'on-first-retry',
     screenshot:"only-on-failure"
   },
   projects: [
     {
-        name: 'chromium',
-        use: { 
-          ...devices['Desktop Chrome'],
-          headless: false 
-        },  
-      },
-  //   {
-  //     name: "chrome:latest:Windows 10@lambdatest",
-  //     use: {
-  //         viewport: { width: 1920, height: 1080},
-  //     },
-  // },
-    // {
-    //     name: "chrome:latest:MacOS Catalina@lambdatest",
-    //     use: {
-    //         viewport: { width: 1920, height: 1080 },
-    //         launchOptions: {
-    //           args: ['--disable-web-security',
-    //               '--use-fake-ui-for-media-stream',
-    //               '--use-fake-device-for-media-stream'
-    //           ],
-    //         }
-    //     },
-    // },
-
-
+      name: 'chromium',
+      use: { 
+        ...devices['Desktop Chrome'],
+        // launchOptions: {
+        //   args: ['--disable-web-security',
+        //       '--use-fake-ui-for-media-stream',
+        //       '--use-fake-device-for-media-stream'
+        //   ],
+        // }
+    },
+    },
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },

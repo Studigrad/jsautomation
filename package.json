@@ -10,19 +10,30 @@
     "tests:headed": "playwright test --workers 1 --headed",
     "tests:debug": "playwright test --workers 1 --headed --debug",
     "tests:lambda": "playwright test --config=playwright-lambda.config.ts --debug",
-    "tests:local": "playwright test --config=playwright.config.ts --headed"
+    "tests:local": "playwright test --config=playwright.config.ts --headed",
+    "tests:study:dot": "playwright test --config=study.config.ts --reporter=dot",
+    "tests:study:list": "playwright test --config=study.config.ts --reporter=list",
+    "tests:study:line": "playwright test --config=study.config.ts --reporter=line",
+    "start": "nodemon index.js"
   },
   "keywords": [],
+  "type": "module",
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.40.1",
-    "@types/node": "^20.10.5"
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
     "moment": "^2.29.4",
     "npm": "^10.2.5",
-    "playwright-elements": "^1.10.0"
+    "playwright-elements": "^1.10.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.3"
   }
 }
