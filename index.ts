@@ -11,10 +11,10 @@ const env = load({
 });
 
 let pool = mysql.createPool({
-  host: "yh6.h.filess.io",
-  user: "automation_heraction",
-  password: "a15e5a47817c45a99ca9f32298e1cca90ea3c056",
-  database: "automation_heraction",
+  host: "host",
+  user: "user",
+  password: "password",
+  database: "database",
   port: 3306,
 });
 
